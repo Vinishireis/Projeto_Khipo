@@ -1,7 +1,4 @@
-/**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
- */
+import { useColorScheme } from 'react-native';
 
 const tintColorLight = '#0a7ea4';
 const tintColorDark = '#fff';
@@ -23,4 +20,13 @@ export const Colors = {
     tabIconDefault: '#9BA1A6',
     tabIconSelected: tintColorDark,
   },
+};
+
+/**
+ * Hook para obter automaticamente as cores do tema atual.
+ * Exemplo de uso: const colors = useThemeColors();
+ */
+export const useThemeColors = () => {
+  const theme = useColorScheme() || 'light'; // Define 'light' como padrão caso não seja detectado
+  return Colors[theme];
 };
