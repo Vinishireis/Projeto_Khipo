@@ -1,12 +1,19 @@
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import React from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+} from "react-native";
 
 const LoginScreen = () => {
   return (
     <View style={styles.container}>
       {/* Logo */}
       <Image
-        source={require('../assets/images/Logo_Khipo_Login.png')}
+        source={require("../assets/images/Logo_Khipo_Login.png")}
         style={styles.logo}
       />
 
@@ -14,10 +21,7 @@ const LoginScreen = () => {
       <Text style={styles.welcomeText}>Bem-vindo</Text>
 
       {/* Campo de utilizador */}
-      <TextInput
-        style={styles.input}
-        placeholder="Utilizador"
-      />
+      <TextInput style={styles.input} placeholder="Utilizador" />
 
       {/* Campo de palavra-passe */}
       <TextInput
@@ -42,56 +46,61 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    backgroundColor: '#fff',
+    justifyContent: "center",
+    alignItems: "center",
+    paddingLeft: 20,
+    paddingRight: 20,
+    backgroundColor: "#fff",
   },
   logo: {
     width: 150, // Ajuste o tamanho conforme necessário
-    height: 150, // Ajuste o tamanho conforme necessário
-    marginBottom: 20,
+    height: 180, // Ajuste o tamanho conforme necessário
+    marginTop: 0,
+    marginBottom: 100,
   },
   welcomeText: {
     fontSize: 32,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
     width: 162,
     height: 40,
-    color: '#55329A' 
+    color: "#55329A",
   },
   input: {
-    width: '100%',
-    height: 40,
-    borderColor: '#ccc',
+    width: "100%",
+    height: 58,
+    borderColor: "#ccc",
     borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
+    borderRadius: 8,
+    paddingHorizontal: 20,
     marginBottom: 15,
+    fontSize: 16,
   },
   loginButton: {
-    width: '100%',
+    width: "100%",
     height: 56,
-    backgroundColor: '#55329A',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 15,
+    backgroundColor: "#55329A",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 30,
+    marginTop: 50,
     marginBottom: 10,
   },
   loginButtonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   helpText: {
-    color: '#24253D',
+    color: "#24253D",
     fontSize: 14,
+    marginTop: 0,
   },
-    link: {
-        color: '#55329A',
-        textAlign: 'center',
-        marginTop: 12,
-    },
+  link: {
+    color: "#55329A",
+    textAlign: "center",
+    marginBottom: 60,
+  },
 });
 
 export default LoginScreen;
