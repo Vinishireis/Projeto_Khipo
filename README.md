@@ -47,6 +47,11 @@ npm install
 npx expo start
 ```
 
+## 📷 ScreenShots
+
+![HomeScreen](https://github.com/user-attachments/assets/0a3ec94b-5be6-42d7-849a-7d530f3de057) 
+
+
 📌 **Nota:** Para rodar no dispositivo físico, baixe o app **Expo Go** e escaneie o QR Code gerado no terminal.
 
 ## 🛠️ Contribuição  
