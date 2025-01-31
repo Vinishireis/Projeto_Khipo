@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Platform, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as Print from 'expo-print';
 import * as FileSystem from 'expo-file-system';
 import * as DocumentPicker from 'expo-document-picker';
-import * as Sharing from 'expo-sharing'; // Para compartilhar o PDF
+import * as Sharing from 'expo-sharing';
 
 const ResultadoScreen = ({ route }) => {
-    const { resultado } = route.params;
     const navigation = useNavigation();
+    const { resultado } = route.params || {}; // Evita erro se `route.params` for undefined
+
+    // Garantir que os valores são numéricos e válidos
+    const valorLiquido = Number(resultado?.valorLiquido) || 0;
+    const mop = Number(resultado?.mop) || 0;
+    const mlk = Number(resultado?.mlk) || 0;
+
     const [document, setDocument] = useState(null);
 
     // Função para gerar o PDF
@@ -18,36 +24,29 @@ const ResultadoScreen = ({ route }) => {
                 <html>
                     <body>
                         <h1>Extrato de Cálculo Comercial</h1>
-                        <p>Valor Líquido: R$ ${resultado.valorLiquido.toFixed(2)}</p>
-                        <p>MOP (R$ / Mês): R$ ${resultado.mop.toFixed(2)}</p>
-                        <p>Margem de Lucro: R$ ${resultado.mlk.toFixed(2)}</p>
+                        <p>Valor Líquido: R$ ${valorLiquido.toFixed(2)}</p>
+                        <p>MOP (R$ / Mês): R$ ${mop.toFixed(2)}</p>
+                        <p>Margem de Lucro: R$ ${mlk.toFixed(2)}</p>
                     </body>
                 </html>
             `;
 
-            // Gerar o PDF
             const { uri } = await Print.printToFileAsync({ html: htmlContent });
             console.log('PDF gerado com sucesso:', uri);
 
-            // Mover o PDF para um local de preferência
             const newUri = await salvarPDF(uri);
-
-            // Compartilhar o PDF
             compartilharPDF(newUri);
-
         } catch (error) {
             console.error('Erro ao gerar PDF:', error);
             Alert.alert('Erro', 'Não foi possível gerar o PDF.');
         }
     };
 
-    // Função para salvar o PDF em um local de preferência
     const salvarPDF = async (uri) => {
         try {
             const fileName = 'extrato_comercial.pdf';
             const destinationUri = `${FileSystem.documentDirectory}${fileName}`;
 
-            // Mover o arquivo para o novo local
             await FileSystem.moveAsync({
                 from: uri,
                 to: destinationUri,
@@ -55,15 +54,13 @@ const ResultadoScreen = ({ route }) => {
 
             console.log('PDF salvo em:', destinationUri);
             return destinationUri;
-
         } catch (error) {
             console.error('Erro ao salvar o PDF:', error);
             Alert.alert('Erro', 'Não foi possível salvar o PDF.');
-            return uri; // Retornar o URI original em caso de erro
+            return uri;
         }
     };
 
-    // Função para compartilhar o PDF
     const compartilharPDF = async (path) => {
         try {
             if (await Sharing.isAvailableAsync()) {
@@ -80,12 +77,9 @@ const ResultadoScreen = ({ route }) => {
         }
     };
 
-    // Função para selecionar o arquivo usando o DocumentPicker
     const selecionarDocumento = async () => {
         try {
-            const res = await DocumentPicker.getDocumentAsync({
-                type: '*/*',
-            });
+            const res = await DocumentPicker.getDocumentAsync({ type: '*/*' });
 
             if (res.type === 'success') {
                 setDocument(res);
@@ -101,9 +95,9 @@ const ResultadoScreen = ({ route }) => {
         <View style={styles.container}>
             <Text style={styles.title}>Resultado do Cálculo</Text>
 
-            <Text style={styles.resultText}>Valor Líquido: R$ {resultado.valorLiquido.toFixed(2)}</Text>
-            <Text style={styles.resultText}>MOP (R$ / Mês): R$ {resultado.mop.toFixed(2)}</Text>
-            <Text style={styles.resultText}>Margem de Lucro: R$ {resultado.mlk.toFixed(2)}</Text>
+            <Text style={styles.resultText}>Valor Líquido: R$ {valorLiquido.toFixed(2)}</Text>
+            <Text style={styles.resultText}>MOP (R$ / Mês): R$ {mop.toFixed(2)}</Text>
+            <Text style={styles.resultText}>Margem de Lucro: R$ {mlk.toFixed(2)}</Text>
 
             <TouchableOpacity style={styles.button} onPress={gerarPDF}>
                 <Text style={styles.buttonText}>Gerar PDF e Enviar</Text>

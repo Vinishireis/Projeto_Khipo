@@ -3,8 +3,8 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import { useNavigation } from '@react-navigation/native';
 
 const NacionalCalculator = () => {
-    const [consultantValue, setConsultantValue] = useState('');
-    const [clientBilling, setClientBilling] = useState('');
+    const [valorMensal, setValorMensal] = useState(''); // Novo campo: Valor Mensal
+    const [valorHora, setValorHora] = useState(''); // Novo campo: Valor Hora
     const [hourQuantity, setHourQuantity] = useState('');
     const [hourRate, setHourRate] = useState('');
     const [monthlyRate, setMonthlyRate] = useState('');
@@ -12,16 +12,16 @@ const NacionalCalculator = () => {
 
     const calcular = () => {
         // Conversão dos valores para números
-        const consultant = parseFloat(consultantValue) || 0;
-        const billing = parseFloat(clientBilling) || 0;
+        const mensal = parseFloat(valorMensal) || 0;
+        const hora = parseFloat(valorHora) || 0;
         const hours = parseFloat(hourQuantity) || 0;
         const ratePerHour = parseFloat(hourRate) || 0;
         const ratePerMonth = parseFloat(monthlyRate) || 0;
-    
+
         // Cálculos
         const faturacaoMensal = hours * ratePerHour;
         const margemLucro = faturacaoMensal - ratePerMonth;
-    
+
         // Resultado
         const resultado = {
             valorLiquido: isNaN(faturacaoMensal) ? 0 : faturacaoMensal,  // Garantindo que o valor não seja NaN
@@ -29,38 +29,46 @@ const NacionalCalculator = () => {
             mop: isNaN(ratePerMonth) ? 0 : ratePerMonth,  // Garantindo que o valor não seja NaN
             mlk: isNaN(margemLucro) ? 0 : margemLucro  // Garantindo que o valor não seja NaN
         };
-    
+
         // Navegação para a tela de resultado
         navigation.navigate('Resultado', { resultado });
     };
-    
 
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Calculadora Nacional</Text>
 
+            {/* Título: Valor Consultor */}
+            <Text style={styles.subtitle}>Valor Consultor</Text>
+
+            {/* Campo: Valor Mensal */}
             <View style={styles.inputContainer}>
-                <Text style={styles.label}>Valor Consultor</Text>
+                <Text style={styles.label}>Valor Mensal</Text>
                 <TextInput
                     style={styles.input}
-                    value={consultantValue}
-                    onChangeText={setConsultantValue}
+                    value={valorMensal}
+                    onChangeText={setValorMensal}
                     keyboardType="numeric"
                     placeholder="R$"
                 />
             </View>
 
+            {/* Campo: Valor Hora */}
             <View style={styles.inputContainer}>
-                <Text style={styles.label}>Faturação Cliente</Text>
+                <Text style={styles.label}>Valor Hora</Text>
                 <TextInput
                     style={styles.input}
-                    value={clientBilling}
-                    onChangeText={setClientBilling}
+                    value={valorHora}
+                    onChangeText={setValorHora}
                     keyboardType="numeric"
                     placeholder="R$"
                 />
             </View>
 
+            {/* Título: Faturação Cliente */}
+            <Text style={styles.subtitle}>Faturação Cliente</Text>
+
+            {/* Campo: Quantidade de Horas */}
             <View style={styles.inputContainer}>
                 <Text style={styles.label}>Quantidade Hora</Text>
                 <TextInput
@@ -72,6 +80,7 @@ const NacionalCalculator = () => {
                 />
             </View>
 
+            {/* Campo: R$ / Hora */}
             <View style={styles.inputContainer}>
                 <Text style={styles.label}>R$ / Hora</Text>
                 <TextInput
@@ -83,6 +92,7 @@ const NacionalCalculator = () => {
                 />
             </View>
 
+            {/* Campo: R$ / Mês */}
             <View style={styles.inputContainer}>
                 <Text style={styles.label}>R$ / Mês</Text>
                 <TextInput
@@ -94,6 +104,7 @@ const NacionalCalculator = () => {
                 />
             </View>
 
+            {/* Botão de Simulação */}
             <TouchableOpacity style={styles.button} onPress={calcular}>
                 <Text style={styles.buttonText}>SIMULAR</Text>
             </TouchableOpacity>
@@ -113,7 +124,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginBottom: 20,
         color: '#333',
-        marginTop: 20
+        marginTop: 20,
+    },
+    subtitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginTop: 10,
+        marginBottom: 10,
+        color: '#555',
     },
     inputContainer: {
         marginBottom: 15,
@@ -133,10 +151,9 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#6A0DAD',
         padding: 15,
-        borderRadius: 5,
+        borderRadius: 30,
         alignItems: 'center',
         marginTop: 20,
-        borderRadius: 30,
     },
     buttonText: {
         color: '#fff',
