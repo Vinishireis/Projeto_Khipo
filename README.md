@@ -88,7 +88,3 @@ Ficaremos felizes com sua colaboração! Para contribuir:
 ## 📝 Licença  
 
 Este projeto está licenciado sob a Licença Creative Commons Attribution 4.0 International (CC BY 4.0).
-
----
-
-Se precisar de ajustes ou quiser adicionar algo, só avisar! 🚀
