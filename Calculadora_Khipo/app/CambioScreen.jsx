@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';  
-import { View, Text, TouchableOpacity, StyleSheet, TextInput, ScrollView, ActivityIndicator, Modal, FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, TextInput, ScrollView, ActivityIndicator, Modal, FlatList, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+
 
 const CambioScreen = () => {
     const [rates, setRates] = useState({});
@@ -11,16 +12,19 @@ const CambioScreen = () => {
     const [filteredRates, setFilteredRates] = useState({});
     const [showModal, setShowModal] = useState(false);
     const [selectedCurrency, setSelectedCurrency] = useState(null);
+    const [countryData, setCountryData] = useState([]);
+    const [searchTerm, setSearchTerm] = useState(''); // Estado para o termo de pesquisa
 
     const apiUrl = 'https://v6.exchangerate-api.com/v6/238325331d7d5b87ac5dbbd8/latest/USD';
 
+    // Busca as taxas de câmbio
     const fetchExchangeRates = async () => {
         setLoading(true);
         try {
             const response = await fetch(apiUrl);
             const data = await response.json();
             setRates(data.conversion_rates);
-            setFilteredRates(data.conversion_rates); // Set initial rates to show all
+            setFilteredRates(data.conversion_rates);
         } catch (error) {
             console.error('Erro ao obter dados de câmbio:', error);
         } finally {
@@ -28,6 +32,18 @@ const CambioScreen = () => {
         }
     };
 
+    // Busca os dados dos países
+    const fetchCountryData = async () => {
+        try {
+            const response = await fetch('https://restcountries.com/v3.1/all');
+            const data = await response.json();
+            setCountryData(data);
+        } catch (error) {
+            console.error('Erro ao obter dados dos países:', error);
+        }
+    };
+
+    // Converte a moeda
     const convertCurrency = () => {
         if (amount && currency && rates[currency]) {
             const result = (parseFloat(amount) * rates[currency]).toFixed(2);
@@ -35,17 +51,35 @@ const CambioScreen = () => {
         }
     };
 
+    // Filtra as taxas de câmbio
     const filterRates = (currency) => {
         if (currency === 'ALL') {
-            setFilteredRates(rates); // Exibe todas as taxas quando 'ALL' é selecionado
+            setFilteredRates(rates);
         } else {
-            setFilteredRates({ [currency]: rates[currency] }); // Exibe somente a moeda selecionada
+            setFilteredRates({ [currency]: rates[currency] });
         }
-        setCurrency(currency); // Atualiza a moeda selecionada na tela
-        setShowModal(false); // Fecha o modal após selecionar a moeda
+        setCurrency(currency);
+        setShowModal(false);
     };
+
+    // Obtém a bandeira correspondente à moeda
+    const getFlagForCurrency = (currencyCode) => {
+        const country = countryData.find((country) =>
+            country.currencies && country.currencies[currencyCode]
+        );
+        return country ? country.flags.png : null;
+    };
+
+    // Filtra as moedas com base no termo de pesquisa
+    const filteredCurrencies = Object.keys(rates)
+        .filter((currencyCode) =>
+            currencyCode.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        .sort(); // Ordena as moedas alfabeticamente
+
     useEffect(() => {
         fetchExchangeRates();
+        fetchCountryData();
     }, []);
 
     return (
@@ -68,12 +102,12 @@ const CambioScreen = () => {
             <View style={styles.inputContainer}>
                 <TextInput
                     style={styles.input}
-                    placeholder="Moeda (ex: EUR, BRL)"
+                    placeholder="Moeda (ex: USD, EUR)"
                     value={currency}
                     onChangeText={setCurrency}
                     placeholderTextColor="#888"
                 />
-                <Ionicons name="md-globe" size={24} color="#6A0DAD" style={styles.inputIcon} />
+                <Ionicons name="globe" size={24} color="#6A0DAD" style={styles.inputIcon} />
             </View>
 
             <TouchableOpacity style={styles.button} onPress={convertCurrency}>
@@ -98,11 +132,17 @@ const CambioScreen = () => {
 
             <ScrollView style={styles.ratesContainer}>
                 <Text style={styles.ratesTitle}>Taxas de Câmbio Atuais</Text>
-                {Object.entries(filteredRates).map(([key, value]) => (
-                    <Text key={key} style={styles.rateText}>
-                        1 USD = {value} {key}
-                    </Text>
-                ))}
+                {Object.entries(filteredRates).map(([key, value]) => {
+                    const flagUrl = getFlagForCurrency(key);
+                    return (
+                        <View key={key} style={styles.rateItem}>
+                            {flagUrl && <Image source={{ uri: flagUrl }} style={styles.flag} />}
+                            <Text style={styles.rateText}>
+                                1 USD = {value} {key}
+                            </Text>
+                        </View>
+                    );
+                })}
             </ScrollView>
 
             {/* Modal para seleção de moeda */}
@@ -110,19 +150,33 @@ const CambioScreen = () => {
                 <View style={styles.modalBackground}>
                     <View style={styles.modalContainer}>
                         <Text style={styles.modalTitle}>Escolha a Moeda</Text>
+
+                        {/* Barra de pesquisa */}
+                        <TextInput
+                            style={styles.searchInput}
+                            placeholder="Pesquisar moeda..."
+                            value={searchTerm}
+                            onChangeText={setSearchTerm}
+                            placeholderTextColor="#888"
+                        />
+
                         <FlatList
-                            data={Object.keys(rates)}
-                            renderItem={({ item }) => (
-                                <TouchableOpacity
-                                    style={styles.modalItem}
-                                    onPress={() => {
-                                        setSelectedCurrency(item);
-                                        filterRates(item);
-                                    }}
-                                >
-                                    <Text style={styles.modalItemText}>{item}</Text>
-                                </TouchableOpacity>
-                            )}
+                            data={filteredCurrencies}
+                            renderItem={({ item }) => {
+                                const flagUrl = getFlagForCurrency(item);
+                                return (
+                                    <TouchableOpacity
+                                        style={styles.modalItem}
+                                        onPress={() => {
+                                            setSelectedCurrency(item);
+                                            filterRates(item);
+                                        }}
+                                    >
+                                        {flagUrl && <Image source={{ uri: flagUrl }} style={styles.flag} />}
+                                        <Text style={styles.modalItemText}>{item}</Text>
+                                    </TouchableOpacity>
+                                );
+                            }}
                             keyExtractor={(item) => item}
                         />
                         <TouchableOpacity
@@ -150,8 +204,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginBottom: 20,
         color: '#6A0DAD',
-        marginTop: 20
-
+        marginTop: 20,
     },
     inputContainer: {
         flexDirection: 'row',
@@ -215,10 +268,20 @@ const styles = StyleSheet.create({
         color: '#6A0DAD',
         marginBottom: 10,
     },
+    rateItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 5,
+    },
     rateText: {
         fontSize: 16,
         color: '#333',
-        paddingVertical: 5,
+        marginLeft: 10,
+    },
+    flag: {
+        width: 24,
+        height: 16,
+        marginRight: 10,
     },
     filterButton: {
         backgroundColor: '#6A0DAD',
@@ -258,15 +321,26 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         textAlign: 'center',
     },
+    searchInput: {
+        height: 40,
+        borderColor: '#ccc',
+        borderWidth: 1,
+        borderRadius: 5,
+        paddingHorizontal: 10,
+        marginBottom: 15,
+        color: '#333',
+    },
     modalItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
         paddingVertical: 12,
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
-        alignItems: 'center',
     },
     modalItemText: {
         fontSize: 18,
         color: '#333',
+        marginLeft: 10,
     },
     closeModalButton: {
         backgroundColor: '#6A0DAD',
