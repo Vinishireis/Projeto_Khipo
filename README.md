@@ -11,11 +11,10 @@ A **Calculadora Comercial Khipo** é uma aplicação multiplataforma desenvolvid
 - **Framework:** React Native com Expo Go  
 - **Linguagem:** JavaScript (JSX)  
 - **Gerenciamento de Estado:** Context API / Hooks  
-- **Interface:** Styled Components / NativeBase  
-- **Autenticação:** Firebase Auth  
+- **Interface:** Styled Components / NativeBase   
 - **Armazenamento:** AsyncStorage  
 - **Navegação:** React Navigation  
-- **Backend:** Futuro suporte para Node.js  
+- **Backend:** Suporte para Node.js  
 
 ## 📌 Funcionalidades  
 
@@ -46,6 +45,11 @@ npm install
 ```bash
 npx expo start
 ```
+
+## 📷 ScreenShots
+
+![HomeScreen](https://github.com/user-attachments/assets/0a3ec94b-5be6-42d7-849a-7d530f3de057) 
+
 
 📌 **Nota:** Para rodar no dispositivo físico, baixe o app **Expo Go** e escaneie o QR Code gerado no terminal.
 
