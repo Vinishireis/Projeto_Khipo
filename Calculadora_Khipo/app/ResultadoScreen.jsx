@@ -22,18 +22,96 @@ const ResultadoScreen = ({ route }) => {
         try {
             const htmlContent = `
                 <html>
-                    <body>
-                        <h1>Extrato de Cálculo Comercial</h1>
-                        <p>Valor Líquido: R$ ${valorLiquido.toFixed(2)}</p>
-                        <p>MOP (R$ / Mês): R$ ${mop.toFixed(2)}</p>
-                        <p>Margem de Lucro: R$ ${mlk.toFixed(2)}</p>
-                    </body>
+                <head>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            margin: 20px;
+                            padding: 10px;
+                            text-align: center;
+                        }
+                        .header {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            padding: 10px;
+                            border-bottom: 2px solid #6A0DAD;
+                        }
+                        .logo {
+                            width: 100px;
+                            height: auto;
+                        }
+                        h1 {
+                            color: #6A0DAD;
+                            text-align: center;
+                        }
+                        .container {
+                            padding: 20px;
+                            border: 1px solid #ddd;
+                            border-radius: 10px;
+                            margin-top: 20px;
+                        }
+                        .info {
+                            text-align: left;
+                            margin-bottom: 20px;
+                        }
+                        .table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-top: 10px;
+                        }
+                        .table th, .table td {
+                            border: 1px solid #ddd;
+                            padding: 10px;
+                            text-align: center;
+                        }
+                        .table th {
+                            background-color: #6A0DAD;
+                            color: white;
+                        }
+                        .footer {
+                            margin-top: 30px;
+                            font-size: 12px;
+                            color: #777;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1>Relatório de Resultados</h1>
+                        <img src="https://media.licdn.com/dms/image/v2/C4D0BAQHb1nct5EXTQg/company-logo_200_200/company-logo_200_200/0/1630572992857?e=2147483647&v=beta&t=4_3i2JkgkBtQBrM7yGEtl97TsGv8kbdKkpkr2EQd4dw" class="logo" />
+                    </div>
+                    <div class="container">
+                        <div class="info">
+                            <p><strong>Data:</strong> ${new Date().toLocaleDateString()}</p>
+                        </div>
+                        <table class="table">
+                            <tr>
+                                <th>Descrição</th>
+                                <th>Valor</th>
+                            </tr>
+                            <tr>
+                                <td>Valor Líquido</td>
+                                <td>R$ ${valorLiquido.toFixed(2)}</td>
+                            </tr>
+                            <tr>
+                                <td>MOP (R$ / Mês)</td>
+                                <td>R$ ${mop.toFixed(2)}</td>
+                            </tr>
+                            <tr>
+                                <td>Margem de Lucro</td>
+                                <td>R$ ${mlk.toFixed(2)}</td>
+                            </tr>
+                        </table>
+                        <p class="footer">Este relatório foi gerado automaticamente pelo sistema.</p>
+                    </div>
+                </body>
                 </html>
             `;
-
+    
             const { uri } = await Print.printToFileAsync({ html: htmlContent });
             console.log('PDF gerado com sucesso:', uri);
-
+    
             const newUri = await salvarPDF(uri);
             compartilharPDF(newUri);
         } catch (error) {
@@ -41,10 +119,11 @@ const ResultadoScreen = ({ route }) => {
             Alert.alert('Erro', 'Não foi possível gerar o PDF.');
         }
     };
+    
 
     const salvarPDF = async (uri) => {
         try {
-            const fileName = 'extrato_comercial.pdf';
+            const fileName = 'Extrato_Comercial.pdf';
             const destinationUri = `${FileSystem.documentDirectory}${fileName}`;
 
             await FileSystem.moveAsync({
