@@ -4,7 +4,7 @@
     "slug": "Calculadora_Khipo",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/Logo_Khipo_Icone_G.png",
+    "icon": "./assets/images/Logo_Khipo_Transparente.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,27 +13,27 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/icon-1024-1024.png",
         "backgroundColor": "#55329a"
       }
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/icon-1024-1024.png"
     },
     "splash": {
-      "image": "./assets/images/splash-icon.png",
+      "image": "./assets/images/splash-4096-4096.png",
       "resizeMode": "contain",
       "backgroundColor": "#55329a"
     },
     "plugins": [
       "expo-router",
-      "expo-document-picker",
+      
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/icon-1024-1024.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#55329a"
