@@ -49,7 +49,6 @@ Apresentamos a interface e funcionalidades do *Khipo*, um aplicativo desenvolvid
 🔗 **Assista agora:**  
 [![Khipo - Demonstração](https://img.youtube.com/vi/2QO83teC-eQ/maxresdefault.jpg)](https://www.youtube.com/watch?v=2QO83teC-eQ)
 
-
 ## 📷 ScreenShots
 
 <p align="center">
@@ -85,6 +84,15 @@ Ficaremos felizes com sua colaboração! Para contribuir:
 4. Envie seu código (`git push origin minha-feature`)  
 5. Abra um **Pull Request**  
 
+## 👥 Equipe de Desenvolvimento  
+
+A Calculadora Comercial Khipo foi desenvolvida com a colaboração de:
+
+- **[@Vinishireis](https://github.com/Vinishireis)** - Vinishireis  
+- **[@brenocosta19](https://github.com/brenocosta19)** - Breno Costa  
+- **[@BrunoSouza06](https://github.com/BrunoSouza06)** - Bruno Souza  
+
 ## 📝 Licença  
 
 Este projeto está licenciado sob a Licença Creative Commons Attribution 4.0 International (CC BY 4.0).
+
