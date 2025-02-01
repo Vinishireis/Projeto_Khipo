@@ -2,6 +2,10 @@
 
 A **Calculadora Comercial Khipo** é uma aplicação multiplataforma desenvolvida para auxiliar consultores e clientes na obtenção de valores precisos com base em métricas comerciais. Com suporte para dispositivos móveis e web, a calculadora é projetada para ser intuitiva e eficiente.
 
+## 🔗 Link da Apresentação
+
+<p> <a href="https://www.canva.com/design/DAGdx0jFY5s/gO9fVwaBHjpNd5sjQBVOXQ/edit?utm_content=DAGdx0jFY5s&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">Apresentação Canva</p>
+
 ## 🚀 Tecnologias Utilizadas
 
 - **Framework:** React Native com Expo Go  
