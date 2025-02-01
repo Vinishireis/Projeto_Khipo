@@ -23,7 +23,7 @@ const HomeScreen = ({ navigation }) => {
     }, [currentIndex]);
 
     return (
-        <ScrollView style={styles.container} scrollEnabled={false}>
+        <ScrollView style={styles.container} scrollEnabled={true}>
             <View style={styles.header}>
                 <Text style={styles.title}>Bem-vindo a Khipo</Text>
                 <Text style={styles.subtitle}>Explore as funcionalidades incríveis que preparamos para você!</Text>
