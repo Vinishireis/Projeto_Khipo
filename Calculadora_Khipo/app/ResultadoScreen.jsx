@@ -1,23 +1,25 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { BarChart } from 'react-native-chart-kit';
+import { Dimensions } from 'react-native';
 import * as Print from 'expo-print';
 import * as FileSystem from 'expo-file-system';
 import * as DocumentPicker from 'expo-document-picker';
 import * as Sharing from 'expo-sharing';
+import ViewShot from 'react-native-view-shot';
+
 
 const ResultadoScreen = ({ route }) => {
     const navigation = useNavigation();
-    const { resultado } = route.params || {}; // Evita erro se `route.params` for undefined
+    const { resultado } = route.params || {};
 
-    // Garantir que os valores são numéricos e válidos
     const valorLiquido = Number(resultado?.valorLiquido) || 0;
     const mop = Number(resultado?.mop) || 0;
     const mlk = Number(resultado?.mlk) || 0;
 
     const [document, setDocument] = useState(null);
 
-    // Função para gerar o PDF
     const gerarPDF = async () => {
         try {
             const htmlContent = `
@@ -108,10 +110,10 @@ const ResultadoScreen = ({ route }) => {
                 </body>
                 </html>
             `;
-    
+
             const { uri } = await Print.printToFileAsync({ html: htmlContent });
             console.log('PDF gerado com sucesso:', uri);
-    
+
             const newUri = await salvarPDF(uri);
             compartilharPDF(newUri);
         } catch (error) {
@@ -119,7 +121,6 @@ const ResultadoScreen = ({ route }) => {
             Alert.alert('Erro', 'Não foi possível gerar o PDF.');
         }
     };
-    
 
     const salvarPDF = async (uri) => {
         try {
@@ -171,12 +172,36 @@ const ResultadoScreen = ({ route }) => {
     };
 
     return (
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
             <Text style={styles.title}>Resultado do Cálculo</Text>
 
             <Text style={styles.resultText}>Valor Líquido: R$ {valorLiquido.toFixed(2)}</Text>
             <Text style={styles.resultText}>MOP (R$ / Mês): R$ {mop.toFixed(2)}</Text>
             <Text style={styles.resultText}>Margem de Lucro: R$ {mlk.toFixed(2)}</Text>
+
+            <View style={styles.chartContainer}>
+                <Text style={styles.chartTitle}>Resumo em Gráfico</Text>
+                <BarChart
+                    data={{
+                        labels: ["Valor Líquido", "MOP", "Lucro"],
+                        datasets: [{ data: [valorLiquido, mop, mlk] }]
+                    }}
+                    width={Dimensions.get("window").width - 40}
+                    height={220}
+                    yAxisLabel="R$"
+                    chartConfig={{
+                        backgroundGradientFrom: "#f4f4f8",
+                        backgroundGradientTo: "#f4f4f8",
+                        decimalPlaces: 2,
+                        color: (opacity = 1) => `rgba(106, 13, 173, ${opacity})`,
+                        labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                    }}
+                    style={{
+                        marginVertical: 20,
+                        borderRadius: 10
+                    }}
+                />
+            </View>
 
             <TouchableOpacity style={styles.button} onPress={gerarPDF}>
                 <Text style={styles.buttonText}>Gerar PDF e Enviar</Text>
@@ -193,13 +218,13 @@ const ResultadoScreen = ({ route }) => {
             <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
                 <Text style={styles.buttonText}>Voltar</Text>
             </TouchableOpacity>
-        </View>
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flexGrow: 1,
         padding: 20,
         backgroundColor: '#f4f4f8',
     },
@@ -231,6 +256,17 @@ const styles = StyleSheet.create({
     documentText: {
         fontSize: 16,
         marginTop: 10,
+        color: '#333',
+    },
+    chartContainer: {
+        alignItems: 'center',
+        marginBottom: 20,
+        width: '100%',
+    },
+    chartTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 10,
         color: '#333',
     },
 });
