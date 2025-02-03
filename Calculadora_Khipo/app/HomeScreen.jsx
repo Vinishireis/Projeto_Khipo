@@ -71,21 +71,99 @@ const HomeScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#f4f4f8', paddingHorizontal: 20 },
-    header: { marginTop: 40, marginBottom: 20, alignItems: 'center' },
-    title: { fontSize: 32, fontWeight: 'bold', color: '#6A0DAD', textAlign: 'center' },
-    subtitle: { fontSize: 16, color: '#555', marginTop: 10, textAlign: 'center' },
-    imageContainer: { alignItems: 'center', marginVertical: 30 },
-    featuredImage: { width: 355, height: 200, borderRadius: 20 },
-    featuresContainer: { marginBottom: 40 },
-    sectionTitle: { fontSize: 24, textAlign: 'center', fontWeight: 'bold', color: '#333', marginBottom: 10 },
-    featureCardContainer: { flexDirection: 'row', justifyContent: 'space-between' },
-    featureCard: { backgroundColor: '#6A0DAD', paddingVertical: 20, paddingHorizontal: 40, borderRadius: 10, alignItems: 'center', justifyContent: 'center', width: '45%', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.2, shadowRadius: 4, elevation: 5 },
-    featureCardText: { fontSize: 14, color: '#fff', fontWeight: 'bold' },
-    contactContainer: { backgroundColor: '#fff', padding: 20, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.2, shadowRadius: 4, elevation: 5, borderRadius: 30 },
-    contactText: { fontSize: 16, color: '#333', marginBottom: 20, textAlign: 'center' },
-    contactButton: { backgroundColor: '#6A0DAD', paddingVertical: 12, paddingHorizontal: 20, alignItems: 'center', marginBottom: 10, borderRadius: 30 },
-    contactButtonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' }
+    container: { 
+        flex: 1, 
+        backgroundColor: '#f4f4f8', 
+        paddingHorizontal: 20 
+    },
+    header: { 
+        marginTop: 40,
+        marginBottom: 20,
+        alignItems: 'center' 
+    },
+    title: { 
+        fontSize: 32,
+        fontWeight: 'bold',
+        color: '#6A0DAD',
+        textAlign: 'center'
+    },
+    subtitle: { 
+        fontSize: 16,
+        color: '#555', 
+        marginTop: 10,
+        textAlign: 'center' 
+    },
+    imageContainer: { 
+        alignItems: 'center',
+        marginVertical: 30 
+    },
+    featuredImage: { 
+        width: 355,
+        height: 200,
+        borderRadius: 20 
+    },
+    featuresContainer: { 
+        marginBottom: 40 
+    },
+    sectionTitle: { 
+        fontSize: 24, 
+        textAlign: 'center', 
+        fontWeight: 'bold', 
+        color: '#333', 
+        marginBottom: 10 
+    },
+    featureCardContainer: { 
+        flexDirection: 'row', 
+        justifyContent: 'space-between' 
+    },
+    featureCard: { 
+        backgroundColor: '#6A0DAD', 
+        paddingVertical: 20, 
+        paddingHorizontal: 40, 
+        borderRadius: 10, 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        width: '45%', 
+        shadowColor: '#000', 
+        shadowOffset: { width: 0, height: 2 }, 
+        shadowOpacity: 0.2, 
+        shadowRadius: 4, 
+        elevation: 5 
+    },
+    featureCardText: { 
+        fontSize: 14, 
+        color: '#fff', 
+        fontWeight: 'bold' 
+    },
+    contactContainer: { 
+        backgroundColor: '#fff', 
+        padding: 20, 
+        shadowColor: '#000', 
+        shadowOffset: { width: 0, height: 2 }, 
+        shadowOpacity: 0.2, 
+        shadowRadius: 4, 
+        elevation: 5, 
+        borderRadius: 30 
+    },
+    contactText: { 
+        fontSize: 16, 
+        color: '#333', 
+        marginBottom: 20, 
+        textAlign: 'center' 
+    },
+    contactButton: { 
+        backgroundColor: '#6A0DAD', 
+        paddingVertical: 12, 
+        paddingHorizontal: 20, 
+        alignItems: 'center', 
+        marginBottom: 10, 
+        borderRadius: 30 
+    },
+    contactButtonText: { 
+        color: '#fff', 
+        fontSize: 16, 
+        fontWeight: 'bold' 
+    }
 });
 
 export default HomeScreen;
