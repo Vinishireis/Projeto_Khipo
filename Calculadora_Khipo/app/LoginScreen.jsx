@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-    View,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    StyleSheet,
-    Image,
-    Linking,
-} from "react-native";
+import {View,Text,TextInput,TouchableOpacity,StyleSheet,Image,Linking,} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -17,10 +9,13 @@ const LoginScreen = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+    const [errorMessage, setErrorMessage] = useState('');
+
     const handleLogin = () => {
         if (username === '' || password === '') {
-            alert('Por favor, preencha todos os campos.');
+            setErrorMessage('Por favor, preencha todos os campos.');
         } else {
+            setErrorMessage('');
             navigation.replace("Home"); // Navega para a tela "Home" após o login
         }
     };
