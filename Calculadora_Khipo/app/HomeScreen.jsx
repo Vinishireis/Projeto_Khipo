@@ -1,5 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Linking, FlatList, Dimensions } from 'react-native';
+import { 
+    View, Text, StyleSheet, Image, TouchableOpacity, 
+    ScrollView, Linking, FlatList, Dimensions 
+} from 'react-native';
 
 const images = [
     'https://images.unsplash.com/photo-1614028674026-a65e31bfd27c?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -13,22 +16,34 @@ const HomeScreen = ({ navigation }) => {
     const flatListRef = useRef(null);
     const [currentIndex, setCurrentIndex] = useState(0);
 
+    // Muda o índice da imagem conforme a visualização
+    const onViewableItemsChanged = ({ viewableItems }) => {
+        if (viewableItems.length > 0) {
+            setCurrentIndex(viewableItems[0].index);
+        }
+    };
+
+    const viewabilityConfig = {
+        itemVisiblePercentThreshold: 50, // Garante que pelo menos 50% da imagem esteja visível para mudar o índice
+    };
+
     useEffect(() => {
         const interval = setInterval(() => {
             const nextIndex = (currentIndex + 1) % images.length;
-            setCurrentIndex(nextIndex);
             flatListRef.current?.scrollToIndex({ index: nextIndex, animated: true });
         }, 3000);
         return () => clearInterval(interval);
     }, [currentIndex]);
 
     return (
-        <ScrollView style={styles.container} scrollEnabled={true}>
+        <ScrollView style={styles.container}>
+            {/* Cabeçalho */}
             <View style={styles.header}>
-                <Text style={styles.title}>Bem-vindo a Khipo</Text>
+                <Text style={styles.title}>Bem-vindo à Khipo</Text>
                 <Text style={styles.subtitle}>Explore as funcionalidades incríveis que preparamos para você!</Text>
             </View>
-            
+
+            {/* Carrossel de Imagens */}
             <View style={styles.imageContainer}>
                 <FlatList
                     ref={flatListRef}
@@ -37,13 +52,15 @@ const HomeScreen = ({ navigation }) => {
                     pagingEnabled
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={(item, index) => index.toString()}
-                    scrollEnabled={false}
                     renderItem={({ item }) => (
                         <Image source={{ uri: item }} style={styles.featuredImage} />
                     )}
+                    onViewableItemsChanged={onViewableItemsChanged}
+                    viewabilityConfig={viewabilityConfig}
                 />
             </View>
-            
+
+            {/* Funcionalidades */}
             <View style={styles.featuresContainer}>
                 <Text style={styles.sectionTitle}>Funcionalidades</Text>
                 <View style={styles.featureCardContainer}>
@@ -55,7 +72,8 @@ const HomeScreen = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
             </View>
-            
+
+            {/* Contato */}
             <View style={styles.contactContainer}>
                 <Text style={styles.sectionTitle}>Fale Conosco</Text>
                 <Text style={styles.contactText}>Tem dúvidas? Fale com a gente.</Text>
@@ -74,7 +92,7 @@ const styles = StyleSheet.create({
     container: { 
         flex: 1, 
         backgroundColor: '#f4f4f8', 
-        padding: 30 
+        paddingHorizontal: '5%', 
     },
     header: { 
         marginTop: 40,
@@ -94,13 +112,15 @@ const styles = StyleSheet.create({
         textAlign: 'center' 
     },
     imageContainer: { 
+        width: '100%', 
         alignItems: 'center',
         marginVertical: 30 
     },
     featuredImage: { 
-        width: 355,
-        height: 200,
-        borderRadius: 20 
+        width: width * 0.9, 
+        height: 200, 
+        borderRadius: 20,
+        resizeMode: 'cover'
     },
     featuresContainer: { 
         marginBottom: 40 
@@ -114,21 +134,23 @@ const styles = StyleSheet.create({
     },
     featureCardContainer: { 
         flexDirection: 'row', 
-        justifyContent: 'space-between' 
+        justifyContent: 'space-between', 
+        flexWrap: 'wrap'
     },
     featureCard: { 
+        width: '45%', 
+        minWidth: 150,
         backgroundColor: '#6A0DAD', 
         paddingVertical: 20, 
-        paddingHorizontal: 40, 
         borderRadius: 10, 
         alignItems: 'center', 
         justifyContent: 'center', 
-        width: '45%', 
         shadowColor: '#000', 
         shadowOffset: { width: 0, height: 2 }, 
         shadowOpacity: 0.2, 
         shadowRadius: 4, 
-        elevation: 5 
+        elevation: 5, 
+        marginBottom: 10
     },
     featureCardText: { 
         fontSize: 14, 
@@ -143,7 +165,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2, 
         shadowRadius: 4, 
         elevation: 5, 
-        borderRadius: 30 
+        borderRadius: 20 
     },
     contactText: { 
         fontSize: 16, 
@@ -154,10 +176,9 @@ const styles = StyleSheet.create({
     contactButton: { 
         backgroundColor: '#6A0DAD', 
         paddingVertical: 12, 
-        paddingHorizontal: 20, 
         alignItems: 'center', 
         marginBottom: 10, 
-        borderRadius: 30 
+        borderRadius: 20 
     },
     contactButtonText: { 
         color: '#fff', 
