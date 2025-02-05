@@ -80,6 +80,8 @@ Apresentamos a interface e funcionalidades do *Khipo*, um aplicativo desenvolvid
 <h2>Nova Feature</h2>
 <p align="center">
   <img src="https://github.com/user-attachments/assets/d1bbda6a-a897-43b9-8ef1-a9d37324c90f" width="300"/>
+  <img src="https://github.com/user-attachments/assets/19aeafaf-cfe1-43a0-b703-ddfdf2cd91c1" width="300"/>
+
 </p>
 
 📌 **Nota:** Para rodar no dispositivo físico, baixe o app **Expo Go** e escaneie o QR Code gerado no terminal.
