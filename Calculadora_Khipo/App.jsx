@@ -12,6 +12,7 @@ import NationalCalculator from './app/NationalCalculator';
 import InternationalCalculator from './app/InternationalCalculator';
 import CambioScreen from './app/CambioScreen';
 import ResultadoScreen from './app/ResultadoScreen';
+import ComparacaoCalculos from './app/ComparacaoCalculos';
 import SettingsScreen from './app/SettingsScreen';
 
 
@@ -114,6 +115,9 @@ export default function App() {
             headerShown: false, // Não exibe o cabeçalho da NavBar na tela Home (vai ser controlado pelo Tab.Navigator)
           }} />
         <Stack.Screen name='Resultado' component={ResultadoScreen} options={{
+            headerShown: false, // Não exibe o cabeçalho da NavBar na tela Home (vai ser controlado pelo Tab.Navigator)
+          }} />
+        <Stack.Screen name='ComparacaoCalculos' component={ComparacaoCalculos} options={{
             headerShown: false, // Não exibe o cabeçalho da NavBar na tela Home (vai ser controlado pelo Tab.Navigator)
           }} />
         <Stack.Screen name='PDF' component={PDFScreen} options={{

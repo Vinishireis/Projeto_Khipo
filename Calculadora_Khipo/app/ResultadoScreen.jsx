@@ -225,7 +225,7 @@ const ResultadoScreen = ({ route }) => {
 const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
-        padding: 20,
+        padding: 30,
         backgroundColor: '#f4f4f8',
     },
     title: {

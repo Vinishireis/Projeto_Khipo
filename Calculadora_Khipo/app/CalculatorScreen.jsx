@@ -42,6 +42,13 @@ const CalculatorScreen = () => {
                 <TouchableOpacity
                     style={[styles.tab, activeTab === 'national' && styles.activeTab]}
                     onPress={() => handleTabPress('national')}
+                    onScroll={Animated.event(
+                        [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                        { useNativeDriver: false, listener: (event) => {
+                            const offsetX = event.nativeEvent.contentOffset.x;
+                            setActiveTab(offsetX >= screenWidth / 2 ? 'international' : 'national');
+                        }}
+                    )}
                 >
                     <Text style={[styles.tabText, activeTab === 'national' && styles.activeTabText]}>Nacional</Text>
                 </TouchableOpacity>
@@ -50,6 +57,13 @@ const CalculatorScreen = () => {
                     onPress={() => handleTabPress('international')}
                 >
                     <Text style={[styles.tabText, activeTab === 'international' && styles.activeTabText]}>Internacional</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={[styles.tab, activeTab === 'comparacao' && styles.activeTab]}
+                    onPress={() => navigation.navigate('ComparacaoCalculos')}
+                >
+                    <Text style={[styles.tabText, activeTab === 'comparacao' && styles.activeTabText]}>Comparação</Text>
                 </TouchableOpacity>
             </View>
 
@@ -102,7 +116,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#f4f4f8',
-        paddingTop: 10,
+        paddingTop: 30,
     },
     tabsContainer: {
         flexDirection: 'row',
